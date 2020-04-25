@@ -7,6 +7,7 @@ interface validateParams{
     max?:number;
 }
 
+//validate function
 function validate(toValidateData: validateParams){
     let isvalid = true;
     if(toValidateData.mandatory){
@@ -31,6 +32,7 @@ function validate(toValidateData: validateParams){
     return isvalid;
 }
 
+//autobind logic
 function autobind(
     _: any,
     _2 : string,
@@ -47,8 +49,38 @@ function autobind(
     return adjDescriptor;
 }
 
+
+//component abstract base class
+
+class component <T extends HTMLElement, U extends HTMLHtmlElement>{
+
+    templeteEl : HTMLTemplateElement;
+    renderEL : T;
+    element: U;
+
+    constructor(
+        templateElid:string,
+        renderElid:string,
+        attatchAfterBegin:boolean,
+        elementId:string        
+    ){
+        this.templeteEl = document.getElementById(templateElid)! as HTMLTemplateElement;
+        this.renderEL = document.getElementById(renderElid)! as T;
+        
+        const importedTemplateNode = document.importNode(this.templeteEl.content,true);
+        this.element = importedTemplateNode.firstElementChild! as U;
+        this.element.id = elementId;
+
+        this.attatch(attatchAfterBegin);
+    }
+
+    private attatch(attatchAfterBegin : boolean){
+        this.renderEL.insertAdjacentElement( attatchAfterBegin ? 'afterbegin':'beforeend',this.element)
+    }
+}
+
 //project list class
-class ProjectList{
+/*class ProjectList{
 
     templeteEl : HTMLTemplateElement;
     renderEL : HTMLDivElement;
@@ -77,7 +109,7 @@ class ProjectList{
         this.element.querySelector('h2')!.textContent = this.listType.toUpperCase() + ' PROJECTS';
     }
 }
-
+*/
 
 //form class
 class InputData{
@@ -167,5 +199,5 @@ class InputData{
 }
 
 let testproject = new InputData();
-let active_projects = new ProjectList('active');
-let completed_projects = new ProjectList('completed');
+//let active_projects = new ProjectList('active');
+//let completed_projects = new ProjectList('completed');
