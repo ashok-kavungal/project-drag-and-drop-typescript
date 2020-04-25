@@ -47,6 +47,39 @@ function autobind(
     return adjDescriptor;
 }
 
+//project list class
+class ProjectList{
+
+    templeteEl : HTMLTemplateElement;
+    renderEL : HTMLDivElement;
+    element:HTMLElement;
+
+    constructor(private listType : 'active'| 'completed'){
+        this.templeteEl = document.getElementById("project-list")! as HTMLTemplateElement;
+        this.renderEL = document.getElementById("app")! as HTMLDivElement;
+        
+        const importedTemplateNode = document.importNode(this.templeteEl.content,true);
+        this.element = importedTemplateNode.firstElementChild! as HTMLElement;
+        this.element.id = `${listType}-projects`;
+
+        this.attatch();
+        this.renderContent();
+
+    }
+
+    private attatch(){
+        this.renderEL.insertAdjacentElement('beforeend',this.element)
+    }
+
+    private renderContent(){
+        const listId = `${this.listType}-projects-list`;
+        this.element.querySelector('ul')!.id = listId;
+        this.element.querySelector('h2')!.textContent = this.listType.toUpperCase() + ' PROJECTS';
+    }
+}
+
+
+//form class
 class InputData{
     templeteEl : HTMLTemplateElement;
     renderEL : HTMLDivElement;
@@ -70,8 +103,6 @@ class InputData{
         this.membersEl = this.element.querySelector('#members')! as HTMLInputElement
 
         this.configSubmitEvent();
-
-
         this.attatch();
     }
 
@@ -136,3 +167,5 @@ class InputData{
 }
 
 let testproject = new InputData();
+let active_projects = new ProjectList('active');
+let completed_projects = new ProjectList('completed');
