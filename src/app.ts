@@ -52,7 +52,7 @@ function autobind(
 
 //component abstract base class
 
-class component <T extends HTMLElement, U extends HTMLHtmlElement>{
+class Component <T extends HTMLElement, U extends HTMLElement>{
 
     templeteEl : HTMLTemplateElement;
     renderEL : T;
@@ -112,30 +112,19 @@ class component <T extends HTMLElement, U extends HTMLHtmlElement>{
 */
 
 //form class
-class InputData{
-    templeteEl : HTMLTemplateElement;
-    renderEL : HTMLDivElement;
-    element:HTMLFormElement;
+class InputData extends Component <HTMLDivElement,HTMLFormElement>{
+  
 
     projectTitleEl : HTMLInputElement;
     descriptionEl : HTMLInputElement;
     membersEl : HTMLInputElement;
 
     constructor(){
-        
-        this.templeteEl = document.getElementById("project-input")! as HTMLTemplateElement;
-        this.renderEL = document.getElementById("app")! as HTMLDivElement;
-        
-        const importedTemplateNode = document.importNode(this.templeteEl.content,true);
-        this.element = importedTemplateNode.firstElementChild! as HTMLFormElement;
-        this.element.id = 'user-input'
-
+        super('project-input','app',true,'user-input');
         this.projectTitleEl = this.element.querySelector('#title')! as HTMLInputElement
         this.descriptionEl = this.element.querySelector('#description')! as HTMLInputElement
         this.membersEl = this.element.querySelector('#members')! as HTMLInputElement
-
         this.configSubmitEvent();
-        this.attatch();
     }
 
     @autobind
@@ -191,10 +180,6 @@ class InputData{
 
     private configSubmitEvent(){
         this.element.addEventListener('submit',this.submitHandler);
-    }
-
-    private attatch(){
-        this.renderEL.insertAdjacentElement('afterbegin',this.element)
     }
 }
 
