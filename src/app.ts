@@ -1,3 +1,19 @@
+enum ProjectStatus{
+    'Active',
+    'Completed'
+}
+
+class Project{
+    constructor(
+        public id:string,
+        public title:string,
+        public  description:string,
+        public  members: number,
+        public status : ProjectStatus
+    ){};
+}
+
+
 interface validateParams{
     value: string | number;
     mandatory?: boolean;
@@ -79,12 +95,34 @@ class Component <T extends HTMLElement, U extends HTMLElement>{
     }
 }
 
+class ProjectInfo extends Component<HTMLUListElement,HTMLLIElement>{
+    private project : Project;
+
+    get membors(){
+        if(this.project.members === 1){
+            return "1 person" ;
+        }else{
+            return `${this.project.members} persons` ;
+        }
+    }
+
+    constructor(renderELid:string,project:Project){
+        super('single-project',renderELid,false,project.id);
+        this.project = project;
+
+        this.renderContent();
+
+    }
+
+    renderContent() {
+      this.element.querySelector('h2')!.textContent = this.project.title;
+      this.element.querySelector('h3')!.textContent = this.membors + ' assigned';
+      this.element.querySelector('p')!.textContent = this.project.description;
+    }
+}
+
 //project list class
 /*class ProjectList{
-
-    templeteEl : HTMLTemplateElement;
-    renderEL : HTMLDivElement;
-    element:HTMLElement;
 
     constructor(private listType : 'active'| 'completed'){
         this.templeteEl = document.getElementById("project-list")! as HTMLTemplateElement;
@@ -94,7 +132,6 @@ class Component <T extends HTMLElement, U extends HTMLElement>{
         this.element = importedTemplateNode.firstElementChild! as HTMLElement;
         this.element.id = `${listType}-projects`;
 
-        this.attatch();
         this.renderContent();
 
     }
