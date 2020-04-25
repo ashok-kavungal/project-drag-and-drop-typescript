@@ -68,11 +68,11 @@
     align-items: center;
   }
   
-  #finished-projects {
+  #completed-projects {
     border-color: #0044ff;
   }
   
-  #finished-projects header {
+  #completed-projects header {
     background: #0044ff;
   }
   
@@ -98,7 +98,7 @@
     margin: 0.5rem 0;
   }
   
-  #finished-projects li h2 {
+  #completed-projects li h2 {
     color: #0044ff;
   }
   
@@ -115,7 +115,7 @@
     background: #ffe3ee;
   }
   
-  #finished-projects .droppable {
+  #completed-projects .droppable {
     background: #d6e1ff;
   }
   
