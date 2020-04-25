@@ -1,3 +1,19 @@
+function autobind(
+    _: any,
+    _2 : string,
+    descriptor: PropertyDescriptor
+){
+    const method = descriptor.value;
+    const adjDescriptor : PropertyDescriptor = {
+        configurable : true,
+        get(){
+           const bindedfn = method.bind(this);
+           return bindedfn;            
+        }
+    };
+    return adjDescriptor;
+}
+
 class InputData{
     templeteEl : HTMLTemplateElement;
     renderEL : HTMLDivElement;
@@ -26,6 +42,7 @@ class InputData{
         this.attatch();
     }
 
+    @autobind
     private submitHandler(event:Event){
         event.preventDefault();
         let temp = this.projectTitleEl.value;
@@ -33,7 +50,7 @@ class InputData{
     }
 
     private configSubmitEvent(){
-        this.element.addEventListener('submit',this.submitHandler.bind(this));
+        this.element.addEventListener('submit',this.submitHandler;
     }
 
     private attatch(){
