@@ -1,5 +1,5 @@
-import { InputData } from './components/project-input-form.js';
-import { ProjectList} from './components/project-list.js';
+import { InputData } from './components/project-input-form';
+import { ProjectList} from './components/project-list';
 
 new InputData();
 new ProjectList('active');
