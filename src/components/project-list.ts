@@ -1,5 +1,5 @@
 import Component from './base-component.js';
-import ProjectInfo from './project-info.js'
+import {ProjectInfo} from './project-info.js'
 import { DragTarget} from '../model/drag-drop.js'
 import { autobind } from '../decorators/autobind.js';
 import { projectState } from '../state/project-state.js';
@@ -7,30 +7,18 @@ import {Project,ProjectStatus} from '../model/project.js'
 
 //project list class
 export class ProjectList extends Component < HTMLDivElement, HTMLElement > implements DragTarget {
-    private projects: Project[];
+    private currentProjects: Project[];
   
     constructor(private listType: 'active' | 'completed') {
       super('project-list', 'app', false, `${listType}-projects`);
-      this.projects = [];
-  
+      this.currentProjects = [];
+
       this.configSubmitEvent();
       this.configDragEvent();
       this.renderContent();
     }
   
-    configSubmitEvent() {
-      projectState.addListener((projects: Project[]) => {
-  
-        const relevantProjects = projects.filter(prj => {
-          if (this.listType === 'active') {
-            return prj.status === ProjectStatus.Active;
-          }
-          return prj.status === ProjectStatus.Completed;
-        });
-        this.projects = relevantProjects;
-        this.renderProjects();
-      });
-    };
+    configSubmitEvent() { }; //to catch up with abstract property
   
     @autobind
     dragOverHandler(event: DragEvent) {
@@ -60,6 +48,19 @@ export class ProjectList extends Component < HTMLDivElement, HTMLElement > imple
       this.element.addEventListener('dragover', this.dragOverHandler);
       this.element.addEventListener('dragleave', this.dragLeaveHandler);
       this.element.addEventListener('drop', this.dropHandler);
+
+      projectState.addListener((projects: Project[]) => {
+  
+        const relevantProjects = projects.filter(prj => {
+          if (this.listType === 'active') {
+            return prj.status === ProjectStatus.Active;
+          }
+          return prj.status === ProjectStatus.Completed;
+        });
+        
+        this.currentProjects = relevantProjects;
+        this.renderProjects();
+      });
     }
   
     renderContent() {
@@ -71,7 +72,7 @@ export class ProjectList extends Component < HTMLDivElement, HTMLElement > imple
     private renderProjects() {
       const listEl = document.getElementById(`${this.listType}-projects-list`) !as HTMLUListElement;
       listEl.innerHTML = '';
-      for (const prjItem of this.projects) {
+      for (const prjItem of this.currentProjects) {
         new ProjectInfo(this.element.querySelector('ul') !.id, prjItem);
       }
     }

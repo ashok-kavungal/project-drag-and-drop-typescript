@@ -1,17 +1,17 @@
 import { Project, ProjectStatus } from '../model/project.js';
 
 ///state and change listener
-type Listener < T > = (items: T[]) => void;
+type Listener <T> = (items: T[]) => void;
 
-class State < T > {
-  protected listeners: Listener < T > [] = [];
+class State <T> {
+  protected listeners: Listener <T>[] = [];
 
-  addListener(listenerFn: Listener < T > ) {
+  addListener(listenerFn: Listener <T> ) {
     this.listeners.push(listenerFn);
   }
 }
 
-export class ProjectState extends State < Project > {
+export class ProjectState extends State <Project> {
   private projects: Project[] = [];
   private static instance: ProjectState;
 
@@ -41,8 +41,9 @@ export class ProjectState extends State < Project > {
 
   moveToCompleted(id: string, status: ProjectStatus) {
     const project = this.projects.find(p => p.id === id);
+    console.log(project);
     if (project && project.status !== status) {
-      project.status == status;
+      project.status = status;
       this.updateListeners();
     }
   }

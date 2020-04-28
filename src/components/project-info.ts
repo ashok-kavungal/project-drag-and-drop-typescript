@@ -3,7 +3,7 @@ import Component from './base-component.js';
 import { autobind } from '../decorators/autobind.js';
 import {Project} from '../model/project.js'
 
-export default class ProjectInfo extends Component < HTMLUListElement, HTMLLIElement > implements Draggable {
+export class ProjectInfo extends Component < HTMLUListElement, HTMLLIElement > implements Draggable {
     private project: Project;
 
     get membors() {
@@ -18,9 +18,9 @@ export default class ProjectInfo extends Component < HTMLUListElement, HTMLLIEle
         super('single-project', renderELid, false, project.id);
         this.project = project;
 
-        this.configSubmitEvent;
-        this.renderContent();
-        this.configDragtEvent();
+        this.configSubmitEvent();
+        this.configDragEvent();
+        this.renderContent();  
     }
 
     @autobind
@@ -33,7 +33,7 @@ export default class ProjectInfo extends Component < HTMLUListElement, HTMLLIEle
         console.log('DragEnd');
     }
 
-    configDragtEvent() {
+    configDragEvent() {
         this.element.addEventListener('dragstart', this.dragStartHandler);
         this.element.addEventListener('dragend', this.dragEndHandler);
     }
