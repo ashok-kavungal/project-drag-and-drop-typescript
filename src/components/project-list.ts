@@ -29,6 +29,7 @@ export class ProjectList extends Component < HTMLDivElement, HTMLElement > imple
       }
     }
   
+    @autobind
     dropHandler(event: DragEvent) {
       const projectId = event.dataTransfer!.getData('text/plain');
       projectState.moveToCompleted(

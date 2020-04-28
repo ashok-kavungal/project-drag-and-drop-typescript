@@ -39,11 +39,12 @@ export class ProjectState extends State <Project> {
     this.updateListeners();
   }
 
-  moveToCompleted(id: string, status: ProjectStatus) {
+  moveToCompleted(id: string, newStatus: ProjectStatus) {
     const project = this.projects.find(p => p.id === id);
-    console.log(project);
-    if (project && project.status !== status) {
-      project.status = status;
+    console.log("project found with status"+ project?.status +"the new status is"+newStatus);
+    if (project && project.status !== newStatus) {
+      project.status = newStatus;
+      console.log('the changed status is'+ project.status);
       this.updateListeners();
     }
   }
