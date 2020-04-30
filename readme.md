@@ -11,6 +11,6 @@ npm install
 # Run typescript
 npm run build
 
-# Run the bot
+# Run the app
 npm start
 ```
